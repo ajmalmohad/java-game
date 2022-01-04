@@ -9,11 +9,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-
 import javax.swing.JFrame;
 
-//Custom Class Imports
-//import tech.ajmalmohad.helpers.Dimension;
+//Custom Imports
+import tech.ajmalmohad.game.graphics.Screen;
+
 
 public class Game extends Canvas implements Runnable {
 	
@@ -30,21 +30,27 @@ public class Game extends Canvas implements Runnable {
 	private JFrame frame;
 	private boolean running = false;
 	
+	//Screen Object
+	private Screen screen;
+	
 	//Main Image Object/View/Final Rendered Image
 	private BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+	
 	//To Write Data to every Pixel of Image
 	//DataBufferInt casts/convert to DataBufferInt class or Integers
 	//getRaster() returns writeable Raster(Array of Pixels to which we can write Color Data)
 	//getDataBuffer() returns Data Buffer of the Raster
 	//Essentially We Convert the Image to an Array of Integers
 	//We can Modify values of Array and Create an Image
-	private int[] pixel = ((DataBufferInt) image.getRaster().getDataBuffer()).getData() ;
+	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData() ;
 	
 	//Default Constructor
 	public Game() {
 		Dimension size = new Dimension(width*scale, height*scale);
 		setPreferredSize(size);
 		
+		//Creates New Screen
+		screen = new Screen(width,height);
 		//Creates new JFrame
 		frame = new JFrame();
 	}
@@ -91,14 +97,22 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		
+		//Render By Filling Pixel Data
+		screen.render();
+		
+		//Populate Pixels Array With Color Data from Pixels of Screen Class
+		for(int i=0; i<pixels.length; i++) {
+			pixels[i] = screen.pixels[i];
+		}
+		
 		//Graphics object has state information needed for the basic rendering operations
 		//Creates a Link between Graphics and Buffer Strategy
 		Graphics g = bs.getDrawGraphics();
 		
 		//All The Graphics
-		g.setColor(Color.BLACK);
-		//Get Width and Height from Method of Component Class
-		g.fillRect(0,0,getWidth(),getHeight());
+
+		//Draw Image
+		g.drawImage(image, 0, 0, getWidth(), getHeight(),null);
 		
 		//Disposes Current Graphics and Releases System Resources at end of each frame
 		//Or Graphics from each frame will not be removed, it will crash the game
