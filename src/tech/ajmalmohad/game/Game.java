@@ -2,10 +2,15 @@ package tech.ajmalmohad.game;
 
 //Java Imports
 import java.awt.Canvas;
-import javax.swing.JFrame;
+import java.awt.Color;
 //import javax.swing.JPanel;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+
+import javax.swing.JFrame;
 
 //Custom Class Imports
 //import tech.ajmalmohad.helpers.Dimension;
@@ -24,6 +29,16 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private JFrame frame;
 	private boolean running = false;
+	
+	//Main Image Object/View/Final Rendered Image
+	private BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+	//To Write Data to every Pixel of Image
+	//DataBufferInt casts/convert to DataBufferInt class or Integers
+	//getRaster() returns writeable Raster(Array of Pixels to which we can write Color Data)
+	//getDataBuffer() returns Data Buffer of the Raster
+	//Essentially We Convert the Image to an Array of Integers
+	//We can Modify values of Array and Create an Image
+	private int[] pixel = ((DataBufferInt) image.getRaster().getDataBuffer()).getData() ;
 	
 	//Default Constructor
 	public Game() {
@@ -75,6 +90,24 @@ public class Game extends Canvas implements Runnable {
 			createBufferStrategy(3);
 			return;
 		}
+		
+		//Graphics object has state information needed for the basic rendering operations
+		//Creates a Link between Graphics and Buffer Strategy
+		Graphics g = bs.getDrawGraphics();
+		
+		//All The Graphics
+		g.setColor(Color.BLACK);
+		//Get Width and Height from Method of Component Class
+		g.fillRect(0,0,getWidth(),getHeight());
+		
+		//Disposes Current Graphics and Releases System Resources at end of each frame
+		//Or Graphics from each frame will not be removed, it will crash the game
+		g.dispose();
+		
+		//We need to do Buffer Swapping/Blitting
+		//Copy bits from one part of a computer's graphical memory to another part
+		//We Remove Previous Buffers and Calculate and Display New Buffer Strategy
+		bs.show();
 	}
 	
 	//Main Method
