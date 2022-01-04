@@ -2,7 +2,6 @@ package tech.ajmalmohad.game;
 
 //Java Imports
 import java.awt.Canvas;
-import java.awt.Color;
 //import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -97,7 +96,10 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		
-		//Render By Filling Pixel Data
+		//Clears Pixel Data
+		screen.clear();
+		
+		//Filling Pixel Data
 		screen.render();
 		
 		//Populate Pixels Array With Color Data from Pixels of Screen Class
