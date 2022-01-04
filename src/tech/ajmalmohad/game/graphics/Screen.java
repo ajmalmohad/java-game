@@ -10,9 +10,6 @@ public class Screen {
 	
 	//Public Variables
 	
-	public int time = 0;
-	public int counter = 0;
-	public boolean forward = true;
 	//Contains Pixel Data
 	public int[] pixels;
 	
@@ -32,20 +29,9 @@ public class Screen {
 	
 	//Render
 	public void render() {
-		counter++;
-		if(forward && counter%50 == 0 && time<height-1) {
-			time++;
-		}else if(!forward && counter%50 == 0 && time>0) {
-			time--;
-		}else if(time == height-1) {
-			forward=false;
-		}else if(time == 0) {
-			forward=true;
-		}
-		
 		 for(int y=0; y<height; y++) {
 			 for(int x=0; x<width; x++) {
-				 pixels[x+time*width] = 0xff00ff;
+				 pixels[x+y*width] = 0xff00ff;
 			 }
 		 }
 	}
