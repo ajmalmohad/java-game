@@ -23,6 +23,7 @@ public class Game extends Canvas implements Runnable {
 	public static int width = 300;
 	public static int height = width*9/16; // 16:9 Ratio
 	public static int scale  = 3;
+	public static String title = "Rain";
 	
 	//Private Variables
 	private Thread thread;
@@ -73,10 +74,59 @@ public class Game extends Canvas implements Runnable {
 	
 	//Thread.start() automatically invokes run()
 	public void run() {
+		
+		//NanoTime for Frame Updates
+		long lastTime = System.nanoTime();
+		long now;
+		final double ns = 1000000000.0 / 60.0;
+		
+		//Time Difference (Becomes 1 at every 1/60th of a second)
+		double delta = 0;
+		
+		//MilliSeconds Timer
+		long timer = System.currentTimeMillis();
+		
+		//FPS Counter Helpers
+		int frames = 0;
+		int updates = 0;
+		
+		//The Game Loop
 		while(running) {
-			update();
+			
+			//Current Time and Delta
+			now = System.nanoTime();
+			//Becomes 1 at Every 1/60th of a Second
+			delta += (now - lastTime)/ns;
+			//Updates the LastTime
+			lastTime = now;
+			
+			//Execute at Specified FPS and Update Delta
+			while(delta >= 1) {
+				update();
+				updates++;
+				delta--;
+			}
+			
+			//Render Every Frame
 			render();
+			
+			//Update Frame Count
+			frames++;
+			
+			//Display UPS and FPS
+			if(System.currentTimeMillis() - timer > 1000) {
+				//Updates Timer
+				timer = System.currentTimeMillis();
+				//Displays FPS and UPS on Title
+				frame.setTitle(title + " | " + updates + " UPS | " + frames +" FPS"); 
+				//Reset Every Second
+				frames = 0;
+				updates = 0;
+			}
+			
 		}
+		//Game Loop End
+		
 	}
 	
 	//Update at Controlled FPS
@@ -135,7 +185,7 @@ public class Game extends Canvas implements Runnable {
 		//Set Window as Non-Resizeable
 		game.frame.setResizable(false);
 		//Set Title
-		game.frame.setTitle("Rain"); 
+		game.frame.setTitle(Game.title); 
 		//Add Component/Fills Window with instance of Game
 		//Game is Subclass of Canvas, so it is a Component
 		game.frame.add(game); 
