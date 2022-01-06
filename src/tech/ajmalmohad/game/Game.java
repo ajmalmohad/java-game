@@ -59,6 +59,7 @@ public class Game extends Canvas implements Runnable {
 		
 		//Key Listener
 		addKeyListener(key);
+		
 	}
 	
 	//Start the Thread
@@ -140,18 +141,10 @@ public class Game extends Canvas implements Runnable {
 	//Updates Movements,Controls etc..
 	public void update() {
 		key.update();
-		if(key.up) {
-			y++;
-		}
-		if(key.down) {
-			y--;
-		}
-		if(key.left) {
-			x--;
-		}
-		if(key.right) {
-			x++;
-		}
+		if(key.up) y++;
+		if(key.down) y--;
+		if(key.left) x--;
+		if(key.right) x++;
 	}
 	
 	//Render at Max FPS 
@@ -168,7 +161,7 @@ public class Game extends Canvas implements Runnable {
 		//Clears Pixel Data
 		screen.clear();
 		
-		//Filling Pixel Data
+		//Filling Pixel Data and Apply Offsets to Map
 		screen.render(x,y);
 		
 		//Populate Pixels Array With Color Data from Pixels of Screen Class
@@ -216,6 +209,8 @@ public class Game extends Canvas implements Runnable {
 		game.frame.setLocationRelativeTo(null);
 		//Show the Window
 		game.frame.setVisible(true);
+		//Set Focus to Window
+		game.setFocusable(true);
 		
 		//Start Game
 		game.start();
