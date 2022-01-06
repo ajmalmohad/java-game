@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 
 //Custom Imports
 import tech.ajmalmohad.game.graphics.Screen;
-
+import tech.ajmalmohad.game.input.Keyboard;
 
 public class Game extends Canvas implements Runnable {
 	
@@ -32,6 +32,7 @@ public class Game extends Canvas implements Runnable {
 	
 	//Screen Object
 	private Screen screen;
+	private Keyboard key;
 	
 	//Main Image Object/View/Final Rendered Image
 	private BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
@@ -53,6 +54,11 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(width,height);
 		//Creates new JFrame
 		frame = new JFrame();
+		//Creates Keyboard
+		key = new Keyboard();
+		
+		//Key Listener
+		addKeyListener(key);
 	}
 	
 	//Start the Thread
@@ -129,10 +135,23 @@ public class Game extends Canvas implements Runnable {
 		
 	}
 	
+	int x=0,y=0;
 	//Update at Controlled FPS
 	//Updates Movements,Controls etc..
 	public void update() {
-		
+		key.update();
+		if(key.up) {
+			y++;
+		}
+		if(key.down) {
+			y--;
+		}
+		if(key.left) {
+			x--;
+		}
+		if(key.right) {
+			x++;
+		}
 	}
 	
 	//Render at Max FPS 
@@ -150,7 +169,7 @@ public class Game extends Canvas implements Runnable {
 		screen.clear();
 		
 		//Filling Pixel Data
-		screen.render();
+		screen.render(x,y);
 		
 		//Populate Pixels Array With Color Data from Pixels of Screen Class
 		for(int i=0; i<pixels.length; i++) {
