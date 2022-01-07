@@ -3,9 +3,9 @@ package tech.ajmalmohad.game.level;
 import tech.ajmalmohad.game.graphics.Screen;
 
 public class Level {
-	private int width;
-	private int height;
-	private int[] tiles;
+	protected int width;
+	protected int height;
+	protected int[] tiles;
 	
 	public Level(int width, int height) {
 		this.width = width;
@@ -24,7 +24,7 @@ public class Level {
 	}
 	
 	//Generate Random Level
-	private void generateLevel() {
+	protected void generateLevel() {
 		
 	}
 	
