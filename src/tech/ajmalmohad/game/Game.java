@@ -25,6 +25,8 @@ public class Game extends Canvas implements Runnable {
 	public static int scale  = 3;
 	public static String title = "Rain";
 	
+	public int xOffset = 0, yOffset = 0;
+	
 	//Private Variables
 	private Thread thread;
 	private JFrame frame;
@@ -136,15 +138,14 @@ public class Game extends Canvas implements Runnable {
 		
 	}
 	
-	int x=0,y=0;
 	//Update at Controlled FPS
 	//Updates Movements,Controls etc..
 	public void update() {
 		key.update();
-		if(key.up) y++;
-		if(key.down) y--;
-		if(key.left) x--;
-		if(key.right) x++;
+		if(key.up) yOffset--;
+		if(key.down) yOffset++;
+		if(key.left) xOffset--;
+		if(key.right) xOffset++;
 	}
 	
 	//Render at Max FPS 
@@ -161,8 +162,8 @@ public class Game extends Canvas implements Runnable {
 		//Clears Pixel Data
 		screen.clear();
 		
-		//Filling Pixel Data and Apply Offsets to Map
-		screen.render(x,y);
+		//Calculating Pixel Data and Apply Offsets to Map
+		screen.render(xOffset,yOffset);
 		
 		//Populate Pixels Array With Color Data from Pixels of Screen Class
 		for(int i=0; i<pixels.length; i++) {
@@ -188,6 +189,7 @@ public class Game extends Canvas implements Runnable {
 		bs.show();
 	}
 	
+
 	//Main Method
 	public static void main(String[] args) {
 		Game game  = new Game();

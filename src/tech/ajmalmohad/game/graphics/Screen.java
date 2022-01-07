@@ -47,23 +47,8 @@ public class Screen {
 	//Render
 	public void render(int xOffset, int yOffset) {
 		 for(int y=0; y<height; y++) {
-			 int yy = y + yOffset;
-			 
-			 //Prevents Array Index Out of Bounds
-			 //if(yy<0 || yy>=height) break; 
-			 
 			 for(int x=0; x<width; x++) {
-				 int xx = x + xOffset;
-				 
-				//Prevents Array Index Out of Bounds
-				//if(xx<0 || xx>=width) break; 
-				 
-				//Screen only Hold 18 Tiles at once (64-18) Remaining Tiles are Skipped
-				//(xx >> 4) & 63) says if (xx >> 4) is Greater than 63 goto 0 like a Loop
-				//Bitwise and Operator Here It Prevents Out of Bounds Error
-				 int tileIndex = ((xx >> 4) & MAP_SIZE_MASK) + ((yy >> 4) & MAP_SIZE_MASK)*MAP_SIZE; 
-				 pixels[x+y*width] = tiles[tileIndex];
-				 
+				 pixels[x+y*width] = Sprite.grass.pixels[(x&15)+(y&15)*Sprite.grass.SIZE]; 
 			 }
 		 }
 	}
