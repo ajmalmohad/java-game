@@ -35,7 +35,10 @@ public class Level {
 	}
 	
 	//Render Level
+	//XScroll and YScroll will be Position of Player
+	//Level Offsets According to Player Movements
 	public void render(int xScroll, int yScroll,Screen screen) {
+		screen.setOffsets(xScroll, yScroll);
 		int x0 = xScroll / 16;
 		int y0 = yScroll/16;
 		int x1 = (xScroll + screen.width)/16;

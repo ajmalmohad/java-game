@@ -15,6 +15,7 @@ public class Screen {
 	private Random random = new Random();
 	
 	//Public Variables
+	public int xOffset, yOffset;
 	
 	//Contains Pixel Data
 	public int[] pixels;
@@ -61,6 +62,9 @@ public class Screen {
 	
 	//Render Tile
 	public void renderTile(int xp, int yp, Tile tile) {
+		//Setting Offsets based on player Movement(Opposite Way for Map)
+		xp -= xOffset;
+		yp -= yOffset;
 		for(int y=0; y<tile.sprite.SIZE; y++) {
 			int ya = y + yp;
 			for(int x=0; x<tile.sprite.SIZE; x++) {
@@ -70,5 +74,12 @@ public class Screen {
 			}
 		}
 	}
+	
+	//Set Offsets
+	public void setOffsets(int xOffset,int yOffset) {
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
+	}
+	
 	
 }
