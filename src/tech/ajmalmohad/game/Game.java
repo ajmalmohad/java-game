@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 //Custom Imports
 import tech.ajmalmohad.game.graphics.Screen;
 import tech.ajmalmohad.game.input.Keyboard;
+import tech.ajmalmohad.game.level.Level;
+import tech.ajmalmohad.game.level.RandomLevel;
 
 public class Game extends Canvas implements Runnable {
 	
@@ -25,8 +27,6 @@ public class Game extends Canvas implements Runnable {
 	public static int scale  = 3;
 	public static String title = "Rain";
 	
-	public int xOffset = 0, yOffset = 0;
-	
 	//Private Variables
 	private Thread thread;
 	private JFrame frame;
@@ -35,6 +35,7 @@ public class Game extends Canvas implements Runnable {
 	//Screen Object
 	private Screen screen;
 	private Keyboard key;
+	private Level level;
 	
 	//Main Image Object/View/Final Rendered Image
 	private BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
@@ -58,6 +59,8 @@ public class Game extends Canvas implements Runnable {
 		frame = new JFrame();
 		//Creates Keyboard
 		key = new Keyboard();
+		//Creates new Level
+		level = new RandomLevel(64,64);
 		
 		//Key Listener
 		addKeyListener(key);
@@ -138,14 +141,15 @@ public class Game extends Canvas implements Runnable {
 		
 	}
 	
+	int x=0,y=0;
 	//Update at Controlled FPS
 	//Updates Movements,Controls etc..
 	public void update() {
 		key.update();
-		if(key.up) yOffset--;
-		if(key.down) yOffset++;
-		if(key.left) xOffset--;
-		if(key.right) xOffset++;
+		if(key.up) y--;
+		if(key.down) y++;
+		if(key.left) x--;
+		if(key.right) x++;
 	}
 	
 	//Render at Max FPS 
@@ -163,7 +167,7 @@ public class Game extends Canvas implements Runnable {
 		screen.clear();
 		
 		//Calculating Pixel Data and Apply Offsets to Map
-		screen.render(xOffset,yOffset);
+		level.render(x, y, screen);
 		
 		//Populate Pixels Array With Color Data from Pixels of Screen Class
 		for(int i=0; i<pixels.length; i++) {

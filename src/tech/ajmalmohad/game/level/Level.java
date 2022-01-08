@@ -39,19 +39,24 @@ public class Level {
 	//Level Offsets According to Player Movements
 	public void render(int xScroll, int yScroll,Screen screen) {
 		screen.setOffsets(xScroll, yScroll);
-		int x0 = xScroll / 16;
-		int y0 = yScroll/16;
-		int x1 = (xScroll + screen.width)/16;
-		int y1 = (yScroll + screen.height)/16;
+		int x0 = xScroll >> 4;
+		int y0 = yScroll >> 4;
+		// +16 is to Expand Render Zone to Make it Close to Width and Height
+		int x1 = (xScroll + screen.width + 16) >> 4;
+		int y1 = (yScroll + screen.height + 16) >> 4;
+		
+		for(int y=y0; y<y1; y++) {
+			for(int x=x0; x<x1; x++) {
+				getTile(x,y).render(x, y, screen);
+			}
+		}
 		
 	}
 	
 	public Tile getTile(int x, int y) {
-		if(tiles[x+y*width]==0) {
-			return Tile.grassTile;
-		}else {
-			return Tile.voidTile;
-		}
+		if(x<0 || x>= width || y<0 || y>= height) return Tile.voidTile;
+		if(tiles[x+y*width]==0) return Tile.grassTile;
+		return Tile.voidTile;
 	}
 	
 	//Manages Time
