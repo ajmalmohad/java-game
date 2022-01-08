@@ -1,6 +1,7 @@
 package tech.ajmalmohad.game.level;
 
 import tech.ajmalmohad.game.graphics.Screen;
+import tech.ajmalmohad.game.level.tile.Tile;
 
 public class Level {
 	protected int width;
@@ -35,7 +36,19 @@ public class Level {
 	
 	//Render Level
 	public void render(int xScroll, int yScroll,Screen screen) {
+		int x0 = xScroll / 16;
+		int y0 = yScroll/16;
+		int x1 = (xScroll + screen.width)/16;
+		int y1 = (yScroll + screen.height)/16;
 		
+	}
+	
+	public Tile getTile(int x, int y) {
+		if(tiles[x+y*width]==0) {
+			return Tile.grassTile;
+		}else {
+			return Tile.voidTile;
+		}
 	}
 	
 	//Manages Time
