@@ -2,7 +2,6 @@ package tech.ajmalmohad.game;
 
 //Java Imports
 import java.awt.Canvas;
-//import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -25,14 +24,14 @@ public class Game extends Canvas implements Runnable {
 	public static int width = 300;
 	public static int height = width*9/16; // 16:9 Ratio
 	public static int scale  = 3;
-	public static String title = "Rain";
+	public static String title = "Game";
 	
 	//Private Variables
 	private Thread thread;
 	private JFrame frame;
 	private boolean running = false;
 	
-	//Screen Object
+	//Main Objects
 	private Screen screen;
 	private Keyboard key;
 	private Level level;
@@ -46,7 +45,7 @@ public class Game extends Canvas implements Runnable {
 	//getDataBuffer() returns Data Buffer of the Raster
 	//Essentially We Convert the Image to an Array of Integers
 	//We can Modify values of Array and Create an Image
-	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData() ;
+	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	
 	//Default Constructor
 	public Game() {
@@ -90,6 +89,8 @@ public class Game extends Canvas implements Runnable {
 		//NanoTime for Frame Updates
 		long lastTime = System.nanoTime();
 		long now;
+		
+		//Turns NanoSeconds to 60*MilliSeconds
 		final double ns = 1000000000.0 / 60.0;
 		
 		//Time Difference (Becomes 1 at every 1/60th of a second)
@@ -125,7 +126,7 @@ public class Game extends Canvas implements Runnable {
 			//Update Frame Count
 			frames++;
 			
-			//Display UPS and FPS
+			//Display UPS and FPS in every Second
 			if(System.currentTimeMillis() - timer > 1000) {
 				//Updates Timer
 				timer = System.currentTimeMillis();
@@ -142,7 +143,7 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	int x=0,y=0;
-	//Update at Controlled FPS
+	//Update at Controlled FPS (60FPS Here)
 	//Updates Movements,Controls etc..
 	public void update() {
 		key.update();
@@ -154,12 +155,12 @@ public class Game extends Canvas implements Runnable {
 	
 	//Render at Max FPS 
 	public void render() {
-		BufferStrategy bs = getBufferStrategy();
+		BufferStrategy bs = this.getBufferStrategy();
 		if(bs == null) {
 			//Triple Buffering - Stores 2 Image at Once to Display
 			//We can get Speed Improvements by having a back buffer
 			//We can calculate while one is being displayed
-			createBufferStrategy(3);
+			this.createBufferStrategy(3);
 			return;
 		}
 		

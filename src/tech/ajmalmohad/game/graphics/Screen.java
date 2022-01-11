@@ -1,7 +1,5 @@
 package tech.ajmalmohad.game.graphics;
 
-import java.util.Random;
-
 import tech.ajmalmohad.game.level.tile.Tile;
 
 //Fills Screen With Colors that We Specify for Each Pixel
@@ -10,9 +8,6 @@ public class Screen {
 	//Private Variables
 	public int width;
 	public int height;
-	
-	//Random Number
-	private Random random = new Random();
 	
 	//Public Variables
 	public int xOffset, yOffset;
@@ -24,20 +19,11 @@ public class Screen {
 	public final int MAP_SIZE = 64;
 	public final int MAP_SIZE_MASK = MAP_SIZE - 1;
 	
-	//Contains Map/Tiles Data
-	public int[] tiles = new int[MAP_SIZE*MAP_SIZE];
-	
 	//Constructor
 	public Screen(int width, int height) {
 		this.width = width;
 		this.height = height;
 		this.pixels = new int[width*height];
-		
-		//Genertae Tiles
-		for(int i=0; i<MAP_SIZE*MAP_SIZE; i++) {
-			tiles[i] = random.nextInt(0xffffff);
-		}
-		
 	}
 	
 	//Clear the Screen

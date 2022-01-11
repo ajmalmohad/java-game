@@ -60,7 +60,7 @@ public class Level {
 	}
 	
 	//Manages Time
-	private void time() {
+	public void time() {
 		
 	}
 	
