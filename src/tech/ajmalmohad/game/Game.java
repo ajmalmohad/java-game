@@ -152,7 +152,7 @@ public class Game extends Canvas implements Runnable {
 		if(key.left) x--;
 		if(key.right) x++;
 	}
-	
+
 	//Render at Max FPS 
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
